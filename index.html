@@ -457,14 +457,21 @@
                 }
             });
 
-            // Initial setup
-            updateDataAndPrediction();
-            updateTimer();
-            timerInterval = setInterval(() => {
-                updateTimer();
-            }, 1000);
+            // Auto-refresh function
+            const autoRefresh = async () => {
+                await updateDataAndPrediction();
+                await updateTimer();
+                updatePredictionHistoryTable();
+            };
 
-            updatePredictionHistoryTable();
+            // Initial setup
+            autoRefresh();
+
+            // Set auto-refresh interval (every 30 seconds)
+            setInterval(autoRefresh, 30000);
+
+            // Timer updates every second
+            timerInterval = setInterval(updateTimer, 1000);
         });
     </script>
 </body>
